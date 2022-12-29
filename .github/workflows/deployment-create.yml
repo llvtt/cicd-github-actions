@@ -29,6 +29,6 @@ jobs:
             --head $tag \
             --base $DEPLOY_BRANCH \
             --title "production deployment [$tag]" \
-            --labels deploy
+            --label deployment
       - name: request reviewers
         run: echo TODO
