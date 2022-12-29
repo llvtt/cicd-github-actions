@@ -17,19 +17,17 @@ jobs:
       DEPLOY_BRANCH: main
     steps:
       - uses: actions/checkout@v3
-      - name: create tag
+      - name: create deployment pull request
         run: |
-          tag=$(git rev-parse --short HEAD)
-          git tag $tag HEAD
-          git push --tags
-      - name: create pull request
-        run: |
-          tag=$(git rev-parse --short HEAD)
+          version=$(git rev-parse --short HEAD)
+          branch_name="deployment-${version}"
+          git checkout -b "$branch_name" HEAD
+          git push origin "$branch_name"
           gh pr create \
-            --head $tag \
+            --head "$branch_name" \
             --base $DEPLOY_BRANCH \
-            --title "production deployment [$tag]" \
-            --body "production deployment [$tag]" \
+            --title "production deployment [$version]" \
+            --body "production deployment [$version]" \
             --label deployment
       - name: request reviewers
         run: echo TODO
