@@ -1,0 +1,30 @@
+name: Create Deployment
+
+on:
+  schedule:
+    # minute hour day-of-month month-of-year day-of-week
+    - cron: "*/5 * * * *"
+
+jobs:
+  create_deployment:
+    runs-on: ubuntu-latest
+    permissions: write-all
+    env:
+      GITHUB_TOKEN: ${{ github.token }}
+      DEPLOY_BRANCH: main
+    steps:
+      - uses: actions/checkout@v3
+      - name: create tag
+        run: |
+          tag=$(git rev-parse --short HEAD)
+          git tag $tag HEAD
+          git push --tags $tag
+      - name: create pull request
+        run: |
+          tag=$(git rev-parse --short HEAD)
+          gh pr create \
+            --head $tag \
+            --base $DEPLOY_BRANCH \
+            --labels deploy
+      - name: request reviewers
+        run: echo TODO
