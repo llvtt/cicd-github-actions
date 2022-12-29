@@ -3,10 +3,7 @@ name: Create Deployment
 on:
   schedule:
     # minute hour day-of-month month-of-year day-of-week
-    - cron: "32,34,36 * * * *"
-  push:
-    branches:
-      - develop
+    - cron: "51 * * * *"
 
 jobs:
   create_deployment:
