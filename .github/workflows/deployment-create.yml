@@ -25,6 +25,5 @@ jobs:
             --base $DEPLOY_BRANCH \
             --title "production deployment [$version]" \
             --body "production deployment [$version]" \
+            --reviewer llvtt \
             --label deployment
-      - name: request reviewers
-        run: echo TODO
