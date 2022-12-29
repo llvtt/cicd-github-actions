@@ -21,7 +21,7 @@ jobs:
         run: |
           tag=$(git rev-parse --short HEAD)
           git tag $tag HEAD
-          git push --tags $tag
+          git push --tags
       - name: create pull request
         run: |
           tag=$(git rev-parse --short HEAD)
