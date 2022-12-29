@@ -3,7 +3,7 @@ name: Create Deployment
 on:
   schedule:
     # minute hour day-of-month month-of-year day-of-week
-    - cron: "*/5 * * * *"
+    - cron: "32,34,36 * * * *"
 
 jobs:
   create_deployment:
@@ -25,6 +25,7 @@ jobs:
           gh pr create \
             --head $tag \
             --base $DEPLOY_BRANCH \
+            --title "production deployment [$tag]" \
             --labels deploy
       - name: request reviewers
         run: echo TODO
