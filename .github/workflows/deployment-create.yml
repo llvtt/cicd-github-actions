@@ -3,8 +3,8 @@ name: Create Deployment
 on:
   schedule:
     # minute hour day-of-month month-of-year day-of-week
-    # Monday - Friday at 18:00 UTC.
-    - cron: "0 18 * * 1-5"
+    # Sunday - Thursday at midnight UTC (15:00 / 16:00 PT).
+    - cron: "0 0 * * 0-4"
   push:
     branches:
       - develop
