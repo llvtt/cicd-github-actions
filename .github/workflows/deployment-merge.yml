@@ -32,6 +32,7 @@ jobs:
             tag=deployment-$(git rev-parse --short HEAD)
             git tag $tag HEAD
             git push origin refs/tags/${tag}:refs/tags/${tag}
+            git fetch origin main && git checkout main
             gh pr merge \
                 --merge \
                 --auto \
