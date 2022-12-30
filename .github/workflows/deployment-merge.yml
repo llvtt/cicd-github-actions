@@ -27,7 +27,7 @@ jobs:
                       --jq '.[].number')
           if [ ! -z "$pr_number" ]; then
             gh pr checkout $pr_number
-            git tag $(git rev-parse --short HEAD) HEAD
+            git tag deployment-$(git rev-parse --short HEAD) HEAD
             git push --tags
             gh pr merge \
                 --merge \
