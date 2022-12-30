@@ -1,0 +1,33 @@
+name: Create Deployment
+
+on:
+  schedule:
+    # minute hour day-of-month month-of-year day-of-week
+    # Monday - Friday at 18:00 UTC.
+    - cron: "0 18 * * 1-5"
+  push:
+    branches:
+      - develop
+
+jobs:
+  create_deployment:
+    runs-on: ubuntu-latest
+    permissions: write-all
+    env:
+      GITHUB_TOKEN: ${{ github.token }}
+      DEPLOY_BRANCH: main
+    steps:
+      - uses: actions/checkout@v3
+      - name: create deployment pull request
+        run: |
+          version=$(git rev-parse --short HEAD)
+          branch_name="deployment-${version}"
+          git checkout -b "$branch_name" HEAD
+          git push origin "$branch_name"
+          gh pr create \
+            --head "$branch_name" \
+            --base $DEPLOY_BRANCH \
+            --title "production deployment [$version]" \
+            --body "production deployment [$version]" \
+            --reviewer llvtt \
+            --label deployment

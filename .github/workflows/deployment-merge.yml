@@ -1,0 +1,37 @@
+name: Merge Deployment Branch
+
+on:
+  schedule:
+    # minute hour day-of-month month-of-year day-of-week
+    # Every 20 minutes Monday - Friday at from 19:00 - 22:00 UTC.
+    - cron: "0,20,40 19-22 * * 1-5"
+  issue_comment:
+    types: [created]
+
+jobs:
+  merge_deployment:
+    runs-on: ubuntu-latest
+    permissions: write-all
+    env:
+      GITHUB_TOKEN: ${{ github.token }}
+      DEPLOY_BRANCH: main
+    steps:
+      - uses: actions/checkout@v3
+      - name: merge deployment pull request
+        run: |
+          pr_number=$(gh pr list \
+                      --label deployment \
+                      --search "-review:changes_requested" \
+                      --limit 1 \
+                      --json number \
+                      --jq '.[].number')
+          if [ ! -z "$pr_number" ]; then
+            gh pr checkout $pr_number
+            git tag $(git rev-parse --short HEAD) HEAD
+            git push --tags
+            gh pr merge \
+                --merge \
+                --auto \
+                --delete-branch \
+                $pr_number
+          fi
