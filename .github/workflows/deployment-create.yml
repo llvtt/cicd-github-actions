@@ -5,9 +5,6 @@ on:
     # minute hour day-of-month month-of-year day-of-week
     # Sunday - Thursday at midnight UTC (15:00 / 16:00 PT).
     - cron: "0 0 * * 0-4"
-  push:
-    branches:
-      - develop
 
 jobs:
   create_deployment:

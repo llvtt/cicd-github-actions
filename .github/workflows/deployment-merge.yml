@@ -5,8 +5,6 @@ on:
     # minute hour day-of-month month-of-year day-of-week
     # Every 20 minutes Monday - Friday at from 19:00 - 22:00 UTC.
     - cron: "0,20,40 19-22 * * 1-5"
-  issue_comment:
-    types: [created]
 
 jobs:
   merge_deployment:
@@ -17,8 +15,6 @@ jobs:
       DEPLOY_BRANCH: main
     steps:
       - uses: actions/checkout@v3
-      - name: Setup upterm session
-        uses: lhotari/action-upterm@v1
       - name: merge deployment pull request
         run: |
           pr_number=$(gh pr list \
