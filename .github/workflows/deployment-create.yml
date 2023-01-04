@@ -18,7 +18,7 @@ jobs:
       - name: create deployment pull request
         run: |
           git fetch origin main
-          if git diff --quiet $DEPLOY_BRANCH; then
+          if git diff --quiet origin/${DEPLOY_BRANCH}; then
             echo "no differences with branch $DEPLOY_BRANCH"
             exit 0
           fi
