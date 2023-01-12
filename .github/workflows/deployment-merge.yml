@@ -5,11 +5,14 @@ on:
     # minute hour day-of-month month-of-year day-of-week
     # Every 20 minutes Monday - Friday at from 19:00 - 22:00 UTC.
     - cron: "0,20,40 19-22 * * 1-5"
+  pull_request_review:
+    types: [submitted]
 
 jobs:
   merge_deployment:
     runs-on: ubuntu-latest
     permissions: write-all
+    if: github.event.review.state == 'approved'
     env:
       GITHUB_TOKEN: ${{ github.token }}
       DEPLOY_BRANCH: main
